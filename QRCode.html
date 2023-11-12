@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--Favicon-->
+  <link rel="shortcut icon" type="image/x-icon" href="dex3.png"/>
+  <title>QR Code Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f70a0a;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      background-color: #8eb3f8;
+      border-radius: 10px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+      padding: 20px;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    .label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    input[type="text"], input[type="color"], input[type="number"] {
+      width: 100%;
+      padding: 8px; /* Adjusted padding */
+      margin: 5px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    #qr-code {
+      width: 200px;
+      height: 200px;
+      margin: 20px auto;
+    }
+
+    #generate-button, #download-button {
+      background-color: #2879cf;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #generate-button:hover, #download-button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>QR Code Generator</h1>
+    <label class="label" for="qr-text">Text, URL, or File Path:</label>
+    <input type="text" id="qr-text" placeholder="Enter text, URL, or file path">
+    <label class="label" for="qr-color">QR Code Color:</label>
+    <input type="color" id="qr-color" value="#000000">
+    <label class="label" for="qr-size">QR Code Size:</label>
+    <input type="number" id="qr-size" min="100" max="500" value="200">
+    <button id="generate-button" onclick="generateQRCode()">Generate QR Code</button>
+    <div id="qr-code"></div>
+    <button id="download-button" onclick="downloadQRCode()">Download QR Code</button>
+  </div>
+
+  <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+  <script>
+    function generateQRCode() {
+      const text = document.getElementById("qr-text").value;
+      const color = document.getElementById("qr-color").value;
+      const size = document.getElementById("qr-size").value;
+
+      const qrCodeInstance = new QRCode(document.getElementById("qr-code"), {
+        text: text,
+        width: size,
+        height: size,
+        colorDark: color,
+      });
+    }
+
+    function downloadQRCode() {
+      const canvas = document.getElementById("qr-code").getElementsByTagName("canvas")[0];
+      const imageURL = canvas.toDataURL("image/png");
+      const link = document.createElement("a");
+      link.href = imageURL;
+      link.download = "qr_code.png";
+      link.click();
+    }
+  </script>
+</body>
+</html>
